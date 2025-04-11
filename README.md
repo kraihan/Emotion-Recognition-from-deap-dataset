@@ -171,3 +171,17 @@ scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 
 The model is trained separately for valence and arousal classification with balanced labels.
 
+
+## 📊 Classification Results (Valence & Arousal)
+
+| Feature                          | Target   | Train Accuracy (%) | Validation Accuracy (%) |
+|----------------------------------|----------|---------------------|--------------------------|
+| **Hilbert Spectrum Energy (HSE)**          | Valence  | 85.23               | 85.74                    |
+|                                  | Arousal  | 85.65               | 85.98                    |
+| **Hilbert-Huang Transfer Entropy (HHTE)** | Valence  | 99.12               | 99.28                    |
+|                                  | Arousal  | 99.91               | 99.63                    |
+| **Wavelet Differential Entropy (DE)**      | Valence  | 93.46               | 94.86                    |
+|                                  | Arousal  | 94.40               | 94.21                    |
+| **Wavelet Energy Bands (WEB)**             | Valence  | 85.81               | 86.48                    |
+|                                  | Arousal  | 85.24               | 85.03                    |
+
