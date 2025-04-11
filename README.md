@@ -69,3 +69,52 @@ EEG Data: (1280, 32, 7680)
 Labels (Valence): (1280,) → Balanced binary
 
 Labels (Arousal): (1280,) → Balanced binary
+
+
+## 🔁 Feature Representation and Mapping
+
+This section outlines the complete process of transforming raw EEG features into a format suitable for deep learning using CNNs. The following steps are applied to each extracted feature (HSE, HHTE, DE, WEB, etc.) to preserve spatiotemporal information:
+
+
+### ✅ 1. Feature Scaling 
+
+Each extracted feature (e.g., Hilbert Spectrum Energy, Wavelet Entropy) is conceptually scaled to a common range to remove magnitude variations across trials. This ensures that the neural network doesn't get biased by signal amplitude differences between subjects or channels.
+
+
+### ✅ 2. Normalization 
+
+In practice, **min-max normalization** is applied **per sample and per channel** to bring values to the [0, 1] range and stabilize training:
+
+```python
+x_min = feature.min(axis=(1, 2), keepdims=True)
+x_max = feature.max(axis=(1, 2), keepdims=True)
+feature_scaled = (feature - x_min) / (x_max - x_min + 1e-8)
+This helps maintain numerical stability and improves model convergence.
+```
+### ✅ 3. Temporal Segmentation
+The time dimension (7680 samples) is segmented into smaller fixed-length windows to extract temporal dynamics.
+```
+python
+depth = 128  # Segment length
+segments = 7680 // depth  # 60 segments
+reshaped = feature_scaled.reshape(samples, channels, segments, depth)
+```
+This converts the feature shape into (samples, channels, 60 segments, 128 time steps).
+
+### ✅ 4. Spatial Representation
+Each 32-channel EEG trial is projected into a 2D spatial layout (8×8 grid) using a predefined channel mapping.
+```
+python
+spatial_grid = np.zeros((8, 8, time_len))
+```
+The function maps real EEG channels to grid positions while filling unused slots with zeros. This results in a spatiotemporal representation:
+```
+python
+spatiotemporal = (samples, segments, 8, 8, depth)
+```
+Finally, the data is reshaped to match the 3D CNN input format:
+```
+python
+final_input = spatiotemporal.reshape(-1, 8, 8, 128)
+```
+This preserves both spatial and temporal characteristics of the EEG signal, allowing deep models to capture rich patterns.
