@@ -39,7 +39,7 @@ def compute_wavelet_energy_bands(eeg_data, wavelet='db4', level=5):
     Computes Wavelet Energy Bands (WEB) for EEG data.
     Energy per wavelet band is interpolated back to original EEG length.
     """
-### ✅ 2. Hilbert-Huang Transform Entropy (HHTE)
+**### ✅ 2. Hilbert-Huang Transform Entropy (HHTE)**
 python
 Copy
 Edit
