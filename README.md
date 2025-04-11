@@ -32,13 +32,14 @@ The labels are multiplied to match the number of EEG time windows for model inpu
 All features preserve the original EEG shape `(1280, 32, 7680)` for direct use in CNN models.
 
 ### ✅ 1. Wavelet Energy Bands (WEB)
-
+```python
 def compute_wavelet_energy_bands(eeg_data, wavelet='db4', level=5):
     """
     Computes Wavelet Energy Bands (WEB) for EEG data.
     Energy per wavelet band is interpolated back to original EEG length.
     """
-<h3> ✅ 2. Hilbert-Huang Transform Entropy (HHTE) </h3>
+```
+### ✅ 2. Hilbert-Huang Transform Entropy (HHTE) 
 
 def compute_hilbert_entropy_full(eeg_data, eps=1e-10):
     """
