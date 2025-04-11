@@ -40,24 +40,26 @@ def compute_wavelet_energy_bands(eeg_data, wavelet='db4', level=5):
     """
 ```
 ### ✅ 2. Hilbert-Huang Transform Entropy (HHTE) 
-
+```python
 def compute_hilbert_entropy_full(eeg_data, eps=1e-10):
     """
     Computes point-wise entropy using normalized Hilbert amplitude envelope.
     """
+```
 ### ✅ 3. Hilbert Spectrum Energy (HSE) 
-
+```python
 def compute_hilbert_spectrum_energy(eeg_data):
     """
     Computes the squared amplitude of the Hilbert analytic signal.
     """
+```
 ### ✅ 4. Wavelet Differential Entropy (DE) 
-
+```python
 def compute_wavelet_de(eeg_data, wavelet='db4', level=1):
     """
     Computes per-channel wavelet-based DE and repeats across time axis.
     """
-
+```
 
 ## 🧪 Final Shapes
 After processing:
