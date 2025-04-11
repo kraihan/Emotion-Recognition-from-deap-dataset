@@ -118,3 +118,56 @@ python
 final_input = spatiotemporal.reshape(-1, 8, 8, 128)
 ```
 This preserves both spatial and temporal characteristics of the EEG signal, allowing deep models to capture rich patterns.
+
+
+
+## 🧠 Model Architecture: Complex 3D CNN
+
+The model is a multi-layer **3D Convolutional Neural Network (3D-CNN)** designed to learn spatiotemporal features from EEG data. It processes input volumes of shape `(1, 8, 8, 128)` representing EEG signals across spatial grid and temporal segments.
+
+### ✅ Architecture Overview
+
+- **3 Convolution Blocks**:
+  - Each block contains: `Conv3D → BatchNorm3D → ReLU → MaxPool3D`
+  - Kernel size: `(3, 3, 7)`
+  - Pool sizes: `(1,2,2) → (2,2,4) → (2,2,4)`
+- **Dropout Layer**: Applied before fully connected layers with `dropout_rate=0.6`
+- **Fully Connected Layers**:
+  - FC1: Linear → ReLU
+  - FC2: Output logits (binary classification: Valence or Arousal)
+
+### ✅ Code Snippet (Model Initialization)
+
+```python
+model = Complex3DCNN(num_classes=2).to('cuda' if torch.cuda.is_available() else 'cpu')
+```
+
+### ⚙️ Training Setup
+Optimizer: Adam
+
+Learning Rate: 1e-4
+
+Weight Decay: 1e-5
+
+```python
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-5)
+Learning Rate Scheduler: ReduceLROnPlateau
+```
+
+Mode: 'min'
+
+Patience: 3
+
+Factor: 0.5
+
+Adjusts learning rate when validation loss plateaus.
+
+```
+python
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, mode='min', patience=3, factor=0.5, verbose=True
+)
+```
+
+The model is trained separately for valence and arousal classification with balanced labels.
+
